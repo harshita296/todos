@@ -8,6 +8,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser, clearUser } from "./features/userSlice";
+import TodoDetails from "./components/TodoDetails";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -47,6 +48,7 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+          <Route path="/todo/:id" element={<TodoDetails />} />
         </Routes>
       </div>
     </Router>

@@ -1,8 +1,10 @@
 import { useDispatch } from "react-redux";
 import { deleteTodo, updateTodo } from "../features/todosSlice";
+import { useNavigate } from "react-router-dom";
 
 const TodoCard = ({ todo }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const toggleStatus = () => {
     if (!todo.deleted) {
@@ -17,7 +19,7 @@ const TodoCard = ({ todo }) => {
 
   const handleDelete = () => {
     if (!todo.deleted) {
-      dispatch(deleteTodo(todo.id));
+      dispatch(updateTodo({ ...todo, deleted: true }));
     }
   };
 
@@ -34,7 +36,8 @@ const TodoCard = ({ todo }) => {
     <div
       className={`relative bg-gray-800 border ${
         todo.deleted ? "border-red-600 opacity-60" : "border-gray-600"
-      } rounded-xl p-5 shadow-md hover:shadow-lg transition duration-200 w-full max-w-sm`}
+      } rounded-xl p-5 shadow-md hover:shadow-lg transition duration-200 w-full max-w-sm cursor-pointer`}
+      onClick={() => navigate(`/todo/${todo.id}`)}
     >
       {todo.deleted && (
         <div className="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-0.5 rounded">
@@ -49,7 +52,10 @@ const TodoCard = ({ todo }) => {
       </div>
       <div className="text-sm text-yellow-400 mb-4">Status: {todo.status}</div>
 
-      <div className="flex flex-col gap-2">
+      <div
+        className="flex flex-col gap-2"
+        onClick={(e) => e.stopPropagation()} // Prevent navigating when clicking buttons
+      >
         {!todo.deleted ? (
           <>
             <button

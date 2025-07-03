@@ -26,10 +26,10 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-900 min-h-screen text-white relative">
-      <div className="flex justify-between items-center mb-6">
+    <div className="p-4 md:p-6 bg-gray-900 min-h-screen text-white relative">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
         <h1 className="text-2xl md:text-3xl font-semibold">
-          Hello, {user?.displayName}
+          Welcome, {user?.displayName}
         </h1>
         <button
           onClick={() => setShowModal(true)}
@@ -40,47 +40,28 @@ const Dashboard = () => {
         </button>
       </div>
 
-      <div className="flex gap-4 mb-6">
-        <button
-          onClick={() => setFilter("all")}
-          className={`px-4 py-2 rounded ${
-            filter === "all" ? "bg-blue-500" : "bg-gray-700"
-          }`}
-        >
-          All Todos
-        </button>
-        <button
-          onClick={() => setFilter("pending")}
-          className={`px-4 py-2 rounded ${
-            filter === "pending" ? "bg-blue-500" : "bg-gray-700"
-          }`}
-        >
-          Pending
-        </button>
-        <button
-          onClick={() => setFilter("completed")}
-          className={`px-4 py-2 rounded ${
-            filter === "completed" ? "bg-blue-500" : "bg-gray-700"
-          }`}
-        >
-          Completed
-        </button>
-
-        <button
-          onClick={() => setFilter("deleted")}
-          className={`px-4 py-2 rounded ${
-            filter === "deleted" ? "bg-blue-500" : "bg-gray-700"
-          }`}
-        >
-          Deleted
-        </button>
+      {/* Filter Buttons */}
+      <div className="flex flex-wrap gap-3 mb-6">
+        {["all", "pending", "completed", "deleted"].map((type) => (
+          <button
+            key={type}
+            onClick={() => setFilter(type)}
+            className={`px-4 py-2 rounded capitalize text-sm ${
+              filter === type ? "bg-blue-500" : "bg-gray-700"
+            }`}
+          >
+            {type} Todos
+          </button>
+        ))}
       </div>
 
+      {/* Todo List */}
       <TodoList filter={filter} />
 
+      {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-opacity-60 backdrop-blur-sm z-50 flex items-center justify-center">
-          <div className="bg-gray-800 text-white rounded-xl p-6 w-full max-w-lg shadow-xl relative transform transition-all duration-300 scale-95 opacity-0 animate-fadeInModal">
+        <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-gray-800 text-white rounded-xl w-full max-w-lg p-6 shadow-xl relative transform transition-all duration-300 animate-fadeInModal">
             <button
               onClick={() => setShowModal(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-white text-lg"
